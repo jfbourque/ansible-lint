@@ -1,24 +1,20 @@
-FROM centos:7
-
-LABEL org.opencontainers.image.title="jfbourque/ansible-lint" \
-    org.opencontainers.image.description="Ansible-lint" \
-    org.opencontainers.image.source="https://github.com/jfbourque/ansible-lint" \
-    org.opencontainers.image.licenses="MIT"    
+FROM python:3.8.3-alpine
 
 COPY requirements.txt .
 
-RUN yum install -y epel-release \
-    && yum upgrade -y \
-    && yum install -y \
+RUN apk add bash sudo shadow
+
+RUN apk add --no-cache linux-headers \
+    build-base \
+    libffi-dev \
+    openssl-dev \
+    git \
     openssh \
     sshpass \
-    git \
-    shadow-utils \
-    python-pip \
-    && python -m pip install --no-cache-dir --upgrade pip \
-    && python -m pip install --no-cache-dir -r requirements.txt \
-    && yum clean all \
-    && rm -rf /var/cache/yum
+    && python3 -m pip install --no-cache-dir --upgrade pip \
+    && python3 -m pip install --no-cache-dir -r requirements.txt \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /root/.cache
 
 VOLUME ["/mnt"]
 
