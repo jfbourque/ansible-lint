@@ -16,9 +16,9 @@ RUN yum install -y epel-release \
     bash \ 
     sudo \
     shadow-utils \
-    python-pip \
-    && python -m pip install --no-cache-dir --upgrade pip \
-    && python -m pip install --no-cache-dir -r requirements.txt \
+    python3-pip \
+    && python3 -m pip install --no-cache-dir --upgrade pip \
+    && python3 -m pip install --no-cache-dir -r requirements.txt \
     && yum clean all \
     && rm -rf /var/cache/yum
 
